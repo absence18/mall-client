@@ -10,6 +10,7 @@ import mall.client.commons.DBUtil;
 import mall.client.vo.Ebook;
 
 public class EbookDao {
+	
 	private DBUtil dbUtil;
 	public List<Ebook> selectEbookListByPage(int beginRow, int rowPerPage) {
 		
@@ -27,7 +28,9 @@ public class EbookDao {
 			stmt.setInt(1, beginRow);
 			stmt.setInt(2, rowPerPage);
 			rs = stmt.executeQuery();
+			
 			while(rs.next()) {
+				
 				Ebook ebook = new Ebook();
 				ebook.setEbookTitle(rs.getString("ebookTitle"));
 				ebook.setEbookPrice(rs.getInt("ebookPrice"));
