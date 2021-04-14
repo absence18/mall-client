@@ -11,6 +11,10 @@ if(session.getAttribute("loginClient") == null) {
 			PW : <input type="password" name="clientPw">
 			<button type="submit">로그인</button>
 		</form>
+		<ul>
+			<!-- InsertClientController - /view/client/insertclient.jsp -->
+			<li><a href="<%=request.getContextPath() %>/InsertClientController">회원가입</a></li>
+		</ul>
 	</div>
 <%	
 } else {
@@ -23,6 +27,8 @@ if(session.getAttribute("loginClient") == null) {
 		<ul>
 			<li><a href="<%=request.getContextPath()%>/IndexController">집으로</a></li>
 			<li><a href="<%=request.getContextPath()%>/LogoutController">로그아웃</a></li>
+			<li><a href="<%=request.getContextPath()%>/ClientOneController">회원정보</a></li>
+			<!-- ClientOneController - ClientDao.selectClientOne() - /view/client/clientOne.jsp -->
 			<li><a href="<%=request.getContextPath()%>/CartListController">장바구니</a></li>
 		</ul>
 	</div>
