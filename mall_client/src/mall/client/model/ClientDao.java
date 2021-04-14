@@ -11,7 +11,36 @@ public class ClientDao {
 	
 	private DBUtil dbUtil;
 
-	
+	// clientOne 메서드
+	public Client selectClientOne(String clientMail) {
+		Client returnClient = new Client();
+		this.dbUtil = new DBUtil();
+		// 초기화 
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = this.dbUtil.getConnection();
+			String sql = "SELECT client_mail, client_date FROM client WHERE client_mail=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, clientMail);
+			// 디버깅
+			System.out.println(stmt+"<-- CluentDao selectClientOne stmt");
+			rs = stmt.executeQuery();
+
+			if(rs.next()) {
+				returnClient.setClientMail(rs.getString("client_mail"));
+				returnClient.setClientDate(rs.getString("client_date"));
+			}
+		} catch(Exception e) {
+			e.printStackTrace(); // 오류메세지를 개발자에게 보여줌
+		} finally { // 힙 영역에서 우선적으로 청소
+			this.dbUtil.close(rs, stmt, conn);
+		}
+		return returnClient;
+	}
+
 	
 	// client가입 메서드
 	public int insertClient(Client client) {
