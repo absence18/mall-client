@@ -10,34 +10,33 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import mall.client.model.CartDao;
-import mall.client.vo.Cart;
 import mall.client.vo.Client;
 
-@WebServlet("/InsertCartController")
-public class InsertCartController extends HttpServlet {
+@WebServlet("/DeleteCartController")
+public class DeleteCartController extends HttpServlet {
 	private CartDao cartDao;
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		// 세션 유효성 검사 (로그인 검사)
 		HttpSession session = request.getSession();
 		if(session.getAttribute("loginClient") == null) {
-			response.sendRedirect("/IndexController");
+			response.sendRedirect(request.getContextPath()+"/IndexController");
 			return;
-		}
-		int ebookNo = Integer.parseInt(request.getParameter("ebookNo"));
-		this.cartDao = new CartDao();
-		Cart cart = new Cart();
-		cart.setEbookNo(ebookNo);
-		cart.setClientMail(((Client)session.getAttribute("loginClient")).getClientMail());
-		
-		// 카트안에 중복된 개체가 있을 경우..?
-		if(this.cartDao.selectClientMail(cart)) {
-			this.cartDao.insertCart(cart);
 			
-		} else {
-			System.out.println("카트에 중복된 항목이 존재");
 		}
 		
-		this.cartDao.insertCart(cart);
-
-		response.sendRedirect(request.getContextPath()+"/CartListController");
+		String clientMail = ((Client)(session.getAttribute("loginClient"))).getClientMail();
+		
+		int ebookNo = Integer.parseInt(request.getParameter("ebookNo"));
+		
+		this.cartDao = new CartDao();
+		
+		this.cartDao.deleteCart(clientMail, ebookNo);
+		
+		response.sendRedirect(request.getContextPath() + "/CartListController");
+		
+		
 	}
+
 }

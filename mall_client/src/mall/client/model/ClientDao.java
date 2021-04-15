@@ -10,6 +10,36 @@ import mall.client.vo.Client;
 public class ClientDao {
 	
 	private DBUtil dbUtil;
+	
+	// client 삭제 메서드
+	public void deleteClient(String clientMail) {
+		
+		this.dbUtil = new DBUtil();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			
+			String sql = "DELETE FROM client WHERE client_mail = ?";
+			
+			conn = this.dbUtil.getConnection();
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, clientMail);
+
+			//디버깅
+			System.out.println(stmt+" <-- ClientDao에서 deleteClient()의 stmt");
+
+			//삭제 실행
+			stmt.executeUpdate();
+
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+			this.dbUtil.close(null, stmt, conn);
+		}
+		return;
+	}
+	
 
 	// clientOne 메서드
 	public Client selectClientOne(String clientMail) {
@@ -141,5 +171,11 @@ public class ClientDao {
 		}
 		return returnClient;
 		
+	}
+
+
+	public boolean compareIdPw(Client client) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

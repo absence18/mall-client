@@ -39,8 +39,10 @@
 				<td><%=mso.get("ebookNo") %></td>
 				<td><%=mso.get("ebookTitle") %></td>
 				<td><%=mso.get("cartDate") %></td>
-				<td><a href="">주문</a></td>
-				<td><a href="">삭제</a></td>
+				<!-- InsertOrdersController - insertOrders(), deleteCart() : ISSUE 트랜잭션 처리 - redirect:/OrdersListController -->
+				<td><a href=""><button type="button">주문</button></a></td>
+				<!-- DeleteCartController - CartDao.deleteCartByClient(mail), CartDao.deleteCart() - redirect:/CartListController -->
+				<td><a href="<%=request.getContextPath()%>/DeleteCartController?ebookNo=<%=mso.get("ebookNo")%>"><button type="button">삭제</button></a></td>
 			</tr>
 		</tbody>
 	<%

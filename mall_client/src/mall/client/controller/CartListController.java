@@ -33,7 +33,7 @@ public class CartListController extends HttpServlet {
 		List<Map<String, Object>> cartList = null;
 		
 		try {
-			cartList = this.cartDao.selectCartList();
+			cartList = this.cartDao.selectCartList("clientMail");
 			
 		} catch(Exception e) {
 			// 예외 발생시 출력만 하고 넘기라

@@ -15,6 +15,97 @@ public class CartDao {
 	
 	private DBUtil dbUtil;
 	
+	// cart삭제 메소드
+	public void deleteCart(String clientMail, int ebookNo) {
+		
+		this.dbUtil = new DBUtil();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			
+			String sql = "DELETE FROM cart WHERE client_mail = ?  AND ebook_no = ?";
+			
+			conn = this.dbUtil.getConnection();
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, clientMail);
+			stmt.setInt(2, ebookNo);
+			
+			stmt.executeUpdate();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			this.dbUtil.close(null, stmt, conn);
+			
+		}
+	}
+	
+	
+	// 회탈 하기전에 장바구니 털기
+	public void deleteCartByClient (String clientMail) {
+		
+		this.dbUtil = new DBUtil();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			
+			String sql = "DELETE FROM cart WHERE client_mail = ?";
+			
+			conn = this.dbUtil.getConnection();
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, clientMail);
+
+			//삭제 실행
+			stmt.executeUpdate();
+
+		} catch (Exception e){
+			e.printStackTrace();
+			
+		} finally {
+			this.dbUtil.close(null, stmt, conn);
+			
+		}
+	}
+		
+	
+	// ebook 중복 검사 메소드
+	public boolean selectClientMail(Cart cart) {
+		
+		boolean flag = true; // 노중복
+		
+		this.dbUtil = new DBUtil();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			
+			conn = this.dbUtil.getConnection();
+			String sql = "SELECT * FROM cart WHERE client_mail=? AND ebook_no=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, cart.getClientMail());
+			stmt.setInt(2, cart.getEbookNo());
+			System.out.printf("stmt: %s<cartDao.selectCartList>\n", stmt);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				flag = false; // 예스중복
+				
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			this.dbUtil.close(rs, stmt, conn);
+			
+		}
+		return flag;
+	}
+
+	
 	// insertCart 메소드
 	public int insertCart(Cart cart) {
 		
@@ -45,10 +136,10 @@ public class CartDao {
 	}
 	
 	// cartList 메소드
-	public List<Map<String, Object>> selectCartList()	{
+	public List<Map<String, Object>> selectCartList(String clientMail)	{
 		
 		// 모든 것을 초기화
-		List<Map<String, Object>> list = new ArrayList<>();
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
 		this.dbUtil = new DBUtil();
 		Connection conn = null;
 		PreparedStatement stmt = null;

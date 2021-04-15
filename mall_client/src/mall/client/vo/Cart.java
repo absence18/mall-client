@@ -6,6 +6,7 @@ public class Cart {
 	private String clientName;
 	private int ebookNo;
 	private String cartDate;
+	private String clientMail;
 	
 	public int getCartNo() {
 		return cartNo;
@@ -31,11 +32,17 @@ public class Cart {
 	public void setCartDate(String cartDate) {
 		this.cartDate = cartDate;
 	}
+	public String getClientMail() {
+		return clientMail;
+	}
+	public void setClientMail(String clientMail) {
+		this.clientMail = clientMail;
+	}
 	
 	@Override
 	public String toString() {
 		return "Cart [cartNo=" + cartNo + ", clientName=" + clientName + ", ebookNo=" + ebookNo + ", cartDate="
 				+ cartDate + "]";
 	}
-
+	
 }
