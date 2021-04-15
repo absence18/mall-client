@@ -22,6 +22,8 @@
 				<th>ebookNo</th>
 				<th>ebookTitle</th>
 				<th>cartDate</th>
+				<th>주문</th>
+				<th>삭제</th>
 			</tr>
 		</thead>
 		
@@ -37,6 +39,8 @@
 				<td><%=mso.get("ebookNo") %></td>
 				<td><%=mso.get("ebookTitle") %></td>
 				<td><%=mso.get("cartDate") %></td>
+				<td><a href="">주문</a></td>
+				<td><a href="">삭제</a></td>
 			</tr>
 		</tbody>
 	<%

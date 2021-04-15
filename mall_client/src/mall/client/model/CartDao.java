@@ -9,10 +9,42 @@ import java.util.List;
 import java.util.Map;
 
 import mall.client.commons.DBUtil;
+import mall.client.vo.Cart;
 
 public class CartDao {
 	
 	private DBUtil dbUtil;
+	
+	// insertCart 메소드
+	public int insertCart(Cart cart) {
+		
+		int rowCnt = 0;
+		this.dbUtil = new DBUtil();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			
+			// try문
+			conn = this.dbUtil.getConnection();
+			String sql = "INSERT INTO cart(client_mail, ebook_no, cart_date";
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			
+		} catch(Exception e) {
+			// 예외 발생하면 출력만 하겠다
+			e.printStackTrace();
+			
+		} finally {
+			// 최종적으로는 종료해라
+			this.dbUtil.close(rs, stmt, conn);
+		}
+		// 리턴 값
+		return rowCnt;
+	}
+	
+	// cartList 메소드
 	public List<Map<String, Object>> selectCartList()	{
 		
 		// 모든 것을 초기화

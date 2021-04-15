@@ -3,21 +3,20 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>insertClientForm</title>
+<title>insertClient</title>
 </head>
 <body>
-	<h1>회원가입</h1><!-- 동일한 주소를 입력해도 doget과 dopost를 나뉘어서 사용해서 같은 주소도 가능 -->
-	<form method="post" action="<%=request.getContextPath()%>/InsertClientController">
-		<div>
-			Mail:
-			<input type="text" name="clientMail">
+	<jsp:include page="/WEB-INF/view/inc/mainMenu.jsp"></jsp:include>
+	<h1>회원가입</h1>
+	<form action="<%=request.getContextPath()%>/InsertClientController" method="post">
+		<div> clientMail : 
+			<input type="text" name="clientMail" required="required">
 		</div>
-		<div>
-			PW:
-			<input type="password" name="clientPw">
-		</div>
-		<button type="submit">회원가입</button>
-	</form>
 
+		<div> clientPw : 
+			<input type="password" name="clientPw" required="required">
+		</div>
+		<button type="submit">입력</button>
+	</form>
 </body>
 </html> 

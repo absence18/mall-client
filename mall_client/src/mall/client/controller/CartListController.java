@@ -22,8 +22,8 @@ public class CartListController extends HttpServlet {
 		
 		// session 검사 (로그인되거나 redirect되거나)
 		HttpSession session = request.getSession();
-		if(session.getAttribute("loginClient") != null) {
-			response.sendRedirect(request.getContextPath()+"IndexController");
+		if(session.getAttribute("loginClient") == null) {
+			response.sendRedirect(request.getContextPath()+"/IndexController");
 			return;
 		}
 		
