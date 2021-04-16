@@ -17,29 +17,32 @@ import mall.client.vo.Client;
 public class DeleteClientController extends HttpServlet {
 	private ClientDao clientDao;
 	private CartDao cartDao;
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//로그인 아니면 redirect
+		
+		// 로그인 유효성검사
 		HttpSession session = request.getSession();
 		if(session.getAttribute("loginClient") == null) {
 			response.sendRedirect(request.getContextPath()+"/IndexController");
 			return;
 		}
-		//세션에서 메일주소 가져오기
+		
+		//세션에서 clientMail 가져오기
 		String clientMail = ((Client)(session.getAttribute("loginClient"))).getClientMail();
-
-
-		//장바구니 비운 후 고객 삭제실행
+		System.out.println(clientMail+"<--삭제할 clientMail");
+		
+		// 삭제메서드
+		this.clientDao = new ClientDao();
 		this.cartDao = new CartDao();
-		this.cartDao.deleteCartByClient(clientMail);
-		this.clientDao =new ClientDao(); 
-		this.clientDao.deleteClient(clientMail);
-
-		//세션 초기화
+		
+		clientDao.deleteClient(clientMail);
+		cartDao.deleteCartAll(clientMail);
+		
+		// 초기화
 		session.invalidate();
-
-		//완료후 다시 index페이지로
+		
+		// 돌아가기
 		response.sendRedirect(request.getContextPath()+"/IndexController");
-
 	}
-
+	
 }

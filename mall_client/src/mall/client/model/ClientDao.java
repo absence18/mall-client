@@ -11,6 +11,29 @@ public class ClientDao {
 	
 	private DBUtil dbUtil;
 	
+	// clientPw 수정 메서드
+	public void updateClientPw(Client client) {
+		this.dbUtil = new DBUtil();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		//db연결 insert
+		try {
+			conn = this.dbUtil.getConnection();
+			String sql="UPDATE client SET client_pw=PASSWORD(?) WHERE client_mail=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, client.getClientPw());
+			stmt.setString(2, client.getClientMail());
+			//디버깅
+			System.out.printf("stmt: %s<ClientDao.updateClientPw>\n", stmt);
+			stmt.executeUpdate();
+
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			this.dbUtil.close(null, stmt, conn);
+		}
+	}
+	
 	// client 삭제 메서드
 	public void deleteClient(String clientMail) {
 		
@@ -149,7 +172,7 @@ public class ClientDao {
 		try {
 			
 			conn = this.dbUtil.getConnection();
-			String sql = "SELECT * FROM client WHERE client_mail=? AND client_pw=PASSWORD(?)";
+			String sql = "SELECT client_mail clientMail, client_no clientNo FROM client WHERE client_mail=? AND client_pw=PASSWORD(?)";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, client.getClientMail());
 			stmt.setString(2, client.getClientPw());
@@ -158,7 +181,8 @@ public class ClientDao {
 			if(rs.next()) {
 				
 				returnClient = new Client();
-				returnClient.setClientMail(rs.getString("client_mail"));
+				returnClient.setClientMail(rs.getString("clientMail"));
+				returnClient.setClientNo(rs.getInt("clientNo"));
 				
 			}
 			
@@ -173,9 +197,4 @@ public class ClientDao {
 		
 	}
 
-
-	public boolean compareIdPw(Client client) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

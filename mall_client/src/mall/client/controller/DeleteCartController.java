@@ -1,7 +1,6 @@
 package mall.client.controller;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,33 +9,30 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import mall.client.model.CartDao;
-import mall.client.vo.Client;
+import mall.client.vo.Cart;
+
 
 @WebServlet("/DeleteCartController")
 public class DeleteCartController extends HttpServlet {
+	// model
 	private CartDao cartDao;
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// 세션 유효성 검사 (로그인 검사)
+		// 로그인 유효성 검사
 		HttpSession session = request.getSession();
-		if(session.getAttribute("loginClient") == null) {
+		if(session.getAttribute("loginClient") != null) {
 			response.sendRedirect(request.getContextPath()+"/IndexController");
 			return;
-			
 		}
 		
-		String clientMail = ((Client)(session.getAttribute("loginClient"))).getClientMail();
+		// 정보수집
+		int cartNo = Integer.parseInt(request.getParameter("cartNo"));
+		System.out.println(cartNo + "장바구니 삭제cartNo");
 		
-		int ebookNo = Integer.parseInt(request.getParameter("ebookNo"));
-		
+		// 메서드호출
 		this.cartDao = new CartDao();
-		
-		this.cartDao.deleteCart(clientMail, ebookNo);
-		
-		response.sendRedirect(request.getContextPath() + "/CartListController");
-		
-		
+		cartDao.deleteCart(cartNo);
+		response.sendRedirect(request.getContextPath()+"/CartListController");
 	}
-
+	
 }

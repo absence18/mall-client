@@ -30,12 +30,10 @@ public class Client {
 	public void setClientDate(String clientDate) {
 		this.clientDate = clientDate;
 	}
-	
 	@Override
 	public String toString() {
 		return "Client [clientNo=" + clientNo + ", clientMail=" + clientMail + ", clientPw=" + clientPw
 				+ ", clientDate=" + clientDate + "]";
 	}
-	
 	
 }

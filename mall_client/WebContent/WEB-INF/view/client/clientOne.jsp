@@ -29,7 +29,7 @@
 
 		<tr>
 			<td>clientDate</td>
-			<td><%=c.getClientDate() %></td>
+			<td><%=c.getClientDate().substring(0,11) %></td>
 		</tr>
 	</table>
 	<!-- UpdateClientPwController.doGet() - updateClientPw.jsp -->

@@ -1,8 +1,7 @@
 package mall.client.controller;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import java.util.List;import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,38 +12,33 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import mall.client.model.CartDao;
+import mall.client.vo.Client;
 
 @WebServlet("/CartListController")
 public class CartListController extends HttpServlet {
-	private CartDao cartDao;
-	// doGet으로 한다
+	private CartDao cartdao;
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// session 검사 (로그인되거나 redirect되거나)
+		// 로그인 유효성 검사
 		HttpSession session = request.getSession();
 		if(session.getAttribute("loginClient") == null) {
 			response.sendRedirect(request.getContextPath()+"/IndexController");
 			return;
 		}
 		
-		// DAO 호출하신분~
-		this.cartDao = new CartDao();
+		// dao 호출
+		this.cartdao = new CartDao();
 		
-		List<Map<String, Object>> cartList = null;
+		// 로그인한 ID로만 조회 가능
+		List<Map<String, Object>>
+		cartList = this.cartdao.selectCartList(((Client)(session.getAttribute("loginClient"))).getClientMail());
 		
-		try {
-			cartList = this.cartDao.selectCartList("clientMail");
-			
-		} catch(Exception e) {
-			// 예외 발생시 출력만 하고 넘기라
-			e.printStackTrace();
-			
-		}
-		
-		// foward를 이용하여 view에 request와 response 권한 넘기기
+		// forward
 		request.setAttribute("cartList", cartList);
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/cart/cartList.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/view/cart/cartList.jsp");
 		rd.forward(request, response);
+		
 	}
-
+	
 }
