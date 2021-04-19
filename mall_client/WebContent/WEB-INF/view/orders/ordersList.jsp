@@ -7,6 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<div>
+		<jsp:include page="/WEB-INF/view/inc/mainMenu.jsp"></jsp:include>
+	</div>
 
 	<%
 		List<Map<String, Object>> orderslist = (List<Map<String, Object>>) request.getAttribute("ordersList");

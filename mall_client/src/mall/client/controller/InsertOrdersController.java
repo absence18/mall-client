@@ -19,7 +19,6 @@ public class InsertOrdersController extends HttpServlet {
 		
 		// 로그인 유효성검사
 		HttpSession session = request.getSession();
-		System.out.println("###########"+session.getAttribute("loginClinet"));
 		if(session.getAttribute("loginClient") == null) {
 			response.sendRedirect(request.getContextPath()+"/IndexController");
 			return;
@@ -48,7 +47,6 @@ public class InsertOrdersController extends HttpServlet {
 		cartDao.deleteCart(ebookNo);
 		
 		// View forward
-		System.out.println("###########"+session.getAttribute("loginClinet"));
 		response.sendRedirect(request.getContextPath()+"/OrdersListController");
 	}
 }

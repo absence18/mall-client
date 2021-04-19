@@ -21,11 +21,11 @@ public class OrdersListController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HttpSession session = request.getSession();
-		System.out.println("@!@#!@#@!#%@#^$%&@$"+session.getAttribute("loginClinet"));
-		if(session.getAttribute("loginClinet") == null) {
+		if(session.getAttribute("loginClient") == null) {
 			response.sendRedirect(request.getContextPath() + "/IndexController");
 			return;
 		}
+		
 		this.ordersDao = new OrdersDao();
 		
 		Client client = (Client)session.getAttribute("loginClient");

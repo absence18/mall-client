@@ -17,6 +17,7 @@
 	
 	<h1>고객정보</h1>
 	<table border="1">
+	
 		<tr>
 			<td>clientNo</td>
 			<td><%=c.getClientNo() %></td>
@@ -31,7 +32,9 @@
 			<td>clientDate</td>
 			<td><%=c.getClientDate().substring(0,11) %></td>
 		</tr>
+		
 	</table>
+	
 	<!-- UpdateClientPwController.doGet() - updateClientPw.jsp -->
 	<!-- UpdateClientPwController.doPost() - ClientDao.updateClientPw() - session.invalidate() - redirect:/IndexController -->
 	<a href="<%=request.getContextPath()%>/UpdateClientPwController"><button type="button">비밀번호수정</button></a>

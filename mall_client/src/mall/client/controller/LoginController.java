@@ -19,6 +19,7 @@ public class LoginController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 로그인 유효성 검사
 		HttpSession session = request.getSession();
+		
 		if(session.getAttribute("loginClient") != null) {
 			response.sendRedirect(request.getContextPath()+"/IndexController");
 			return;
@@ -31,12 +32,15 @@ public class LoginController extends HttpServlet {
 		Client client = new Client();
 		client.setClientMail(clientMail);
 		client.setClientPw(clientPw);
-
+		
 		this.clientDao = new ClientDao();
 		Client returnClient = this.clientDao.login(client);
+		
 		if(returnClient != null) {
 			session.setAttribute("loginClient", returnClient);
+			
 		}
 		response.sendRedirect(request.getContextPath()+"/IndexController");
+		
 	}
 }
