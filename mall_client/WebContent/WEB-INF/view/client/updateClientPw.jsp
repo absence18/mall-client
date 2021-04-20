@@ -8,7 +8,7 @@
 </head>
 <body>
 	<h1>비밀번호 수정</h1>
-	<form action="<%=request.getContextPath()%>/UpdateClientPwController" method="post">
+	<form action="${pageContext.request.contextPath }/UpdateClientPwController" method="post">
 		<div>
 			새 비밀번호:
 			<input type="password" name="clientPw">
