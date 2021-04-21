@@ -29,18 +29,18 @@ public class ClientOneController extends HttpServlet {
 		}
 		
 		// Dao 호출
-				this.clientDao = new ClientDao();
-				String clientMail = ((Client)session.getAttribute("loginClient")).getClientMail(); // 세션에서 받아온 값을 문자열타입으로 clientMail에 저장 (세션을 받아 올때 email만 받아옴)
+		this.clientDao = new ClientDao();
+		String clientMail = ((Client)session.getAttribute("loginClient")).getClientMail(); // 세션에서 받아온 값을 문자열타입으로 clientMail에 저장 (세션을 받아 올때 email만 받아옴)
 
-				// 클라이언트 상세정보
-				Client clientOne = this.clientDao.selectClientOne(clientMail);
-				//디버깅
-				System.out.println(clientMail+"고객정보세션");
+		// 클라이언트 상세정보
+		Client clientOne = this.clientDao.selectClientOne(clientMail);
+		//디버깅
+		System.out.println(clientMail+"고객정보세션");
 
-				//세션에 넣기
-				client = this.clientDao.selectClientOne(clientMail);
-				request.setAttribute("client", client);
-				request.getRequestDispatcher("/WEB-INF/view/client/clientOne.jsp").forward(request, response);
+		//세션에 넣기
+		client = this.clientDao.selectClientOne(clientMail);
+		request.setAttribute("client", client);
+		request.getRequestDispatcher("/WEB-INF/view/client/clientOne.jsp").forward(request, response);
 
 	}	
 	

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import mall.client.model.EbookDao;
 import mall.client.model.OrdersDao;
+import mall.client.model.StatsDao;
 import mall.client.vo.Ebook;
 
 // C -> M -> V
@@ -20,6 +21,7 @@ import mall.client.vo.Ebook;
 public class IndexController extends HttpServlet {
 	private EbookDao ebookDao;
 	private OrdersDao ordersDao;
+	private StatsDao statsDao;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -61,6 +63,12 @@ public class IndexController extends HttpServlet {
 		
 		// 전체 ebook
 		this.ebookDao = new EbookDao();
+		
+		// 접속자 관련 데이터
+		this.statsDao = new StatsDao();
+		long total = this.statsDao.selectStatsTotal();
+		long statsCount = this.statsDao.selectStatsByToday().getStatsCount();
+		
 		// 전체 행 개수 메소드 호출 및 선언
 		int totalRow = this.ebookDao.totalCount(categoryName, searchWord);
 		// 디버깅
@@ -80,6 +88,8 @@ public class IndexController extends HttpServlet {
 		}
 		
 		// View forward
+		request.setAttribute("total", total);
+		request.setAttribute("statsCount", statsCount);
 		request.setAttribute("bestOrdersList", bestOrdersList);
 		request.setAttribute("ebookList", ebookList);
 		request.setAttribute("currentPage", currentPage);

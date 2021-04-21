@@ -25,7 +25,6 @@ public class LoginController extends HttpServlet {
 			return;
 		}
 		//
-		request.setCharacterEncoding("utf-8");
 		String clientMail = request.getParameter("clientMail");
 		String clientPw = request.getParameter("clientPw");
 		
