@@ -15,6 +15,7 @@ import mall.client.model.EbookDao;
 import mall.client.model.OrdersDao;
 import mall.client.model.StatsDao;
 import mall.client.vo.Ebook;
+import mall.client.vo.Stats;
 
 // C -> M -> V
 @WebServlet("/IndexController")
@@ -25,7 +26,8 @@ public class IndexController extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// request 분석
+		// request 분석 //
+		
 		// 카테고리별 정렬을 위해 기본값이 null인 변수 선언, view에서 카테고리를 선택하면 그 값으로 설정되게 함
 		String categoryName = null;
 		if(request.getParameter("categoryName") != null) {
@@ -56,7 +58,8 @@ public class IndexController extends HttpServlet {
 		int beginRow = (currentPage-1)*rowPerPage;
 		
 		
-		// Model 호출
+		// Model 호출 //
+		
 		// bestseller list
 		this.ordersDao = new OrdersDao();
 		List<Map<String, Object>> bestOrdersList = this.ordersDao.selectBestOrdersList();
@@ -67,16 +70,22 @@ public class IndexController extends HttpServlet {
 		// 접속자 관련 데이터
 		this.statsDao = new StatsDao();
 		long total = this.statsDao.selectStatsTotal();
-		long statsCount = this.statsDao.selectStatsByToday().getStatsCount();
+		Stats stats = this.statsDao.selectStatsByToday();
+		long statsCount = 0;
+		if(stats != null) {
+			statsCount = stats.getStatsCount();
+		}
 		
 		// 전체 행 개수 메소드 호출 및 선언
 		int totalRow = this.ebookDao.totalCount(categoryName, searchWord);
+		
 		// 디버깅
 		System.out.println(totalRow+"<-- IndexController의 totalRow");
 
 		List<String> categoryList = this.ebookDao.categoryList();
 
 		List<Ebook> ebookList = null;
+		
 		// view에서 기능 사용에 따라서 ebookList 값을 다르게 복사 (categoryName, searchWord)
 		// 검색어가 없다면,
 		if(searchWord == null) {

@@ -112,7 +112,7 @@ public class StatsDao {
 		try {
 			
 			conn = this.dbUtil.getConnection();
-			String sql = "SELECT COUNT(stats_count) total FROM stats";
+			String sql = "SELECT SUM(stats_count) total FROM stats";
 			stmt = conn.prepareStatement(sql);
 			
 			System.out.println(stmt + "<--selectStatsTotal()");
